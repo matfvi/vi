@@ -16,7 +16,7 @@ Cas obuhvata:
 .
 ├── 01_graph
 │   ├── graph.py                    -> implementacija grafa i algoritama pretrage
-│   └─── main.py                     -> testiranje strukture
+│   └─── main.py                    -> testiranje strukture
 ├── 02_loyd_puzzle
 │   ├── loyd_puzzle.py              -> implementacija resavanja lojdove puzle koristeci DFS i BFS
 │   ├── loyd_puzzle_dfs_solver.py   -> resavac lojdove puzle baziran na DFS-u
