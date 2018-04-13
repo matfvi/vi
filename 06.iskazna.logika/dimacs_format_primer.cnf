@@ -1,0 +1,10 @@
+c Koristimo c na pocetku linije kako bi otvorili jednolinijski komentar
+c zapisujemo formulu
+c (q | t) & (~q | ~t) & (p | r) & (~p | ~r)
+
+p cnf 4 8
+2 4 0
+-2 -4 0
+1 3 0
+-1 -3 0
+
