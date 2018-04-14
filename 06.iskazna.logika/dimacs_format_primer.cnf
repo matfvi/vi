@@ -2,7 +2,10 @@ c Koristimo c na pocetku linije kako bi otvorili jednolinijski komentar
 c zapisujemo formulu
 c (q | t) & (~q | ~t) & (p | r) & (~p | ~r)
 
-p cnf 4 8
+c Prvi broj 4 oznacava da postoje 4 promenljive.
+c Drugi broj 4 oznacava da postoje 4 klauze.
+c Nula se koristi da oznaci kraj klauze.
+p cnf 4 4
 2 4 0
 -2 -4 0
 1 3 0
