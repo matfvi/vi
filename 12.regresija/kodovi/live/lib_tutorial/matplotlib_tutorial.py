@@ -29,8 +29,8 @@ def main():
         'x*log(x)',
         '$x^2$'
     ])
-    plt.savefig('the_image_who_escaped.png')
-    plt.savefig('the_image_who_escaped.svg')
+    plt.savefig('generated_image.png')
+    plt.savefig('generated_image.svg')
 
     plt.show()
 
