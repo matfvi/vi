@@ -1,0 +1,1 @@
+# Logicke zagonetke u prologu.
