@@ -6,6 +6,10 @@
 - [matplotlib](https://matplotlib.org/)
 - [pandas](https://pandas.pydata.org/)
 
+## Gde pronaći još skupova podataka?
+- [Kaggle](https://www.kaggle.com/)
+- [UCI](https://archive.ics.uci.edu/ml/datasets.html)
+
 ## O bibliotekama
 Pomenute biblioteke se često koriste zajedno i u svetu mašinskog učenja i istraživanja podataka
 predstavljaju jedan od glavnih alata.
