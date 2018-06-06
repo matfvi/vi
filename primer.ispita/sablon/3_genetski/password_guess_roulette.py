@@ -64,8 +64,8 @@ class GeneticAlgorithm:
             child1, child2 = self.crossover(parents[0].content, parents[1].content)
 
             # Vrsimo mutaciju nakon ukrstanja
-            self.mutation(child1)
-            self.mutation(child2)
+            child1 = self.mutation(child1)
+            child2 = self.mutation(child2)
 
             # Dodajemo nove hromozome u novu generaciju
             new_generation.append(Chromosome(child1, self.fitness(child1)))
