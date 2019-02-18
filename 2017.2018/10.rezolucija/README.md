@@ -1,0 +1,1 @@
+# Metod rezolucije
