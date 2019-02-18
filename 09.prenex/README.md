@@ -1,1 +1,0 @@
-# Prenex, skolemizacija, KNF

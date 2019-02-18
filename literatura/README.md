@@ -1,1 +1,0 @@
-# Literatura dostupna na ispitu

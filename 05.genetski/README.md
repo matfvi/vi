@@ -1,1 +1,0 @@
-# Genetski algoritmi

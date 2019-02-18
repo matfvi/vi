@@ -1,1 +1,0 @@
-# Algoritam KNF
