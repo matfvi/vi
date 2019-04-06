@@ -1,6 +1,6 @@
 # Algoritam KNF i Minisat rešavač
 
-- **Implementirana klasa za zapis formule**. Za iskaznu formulu važna je njena _interpretacija _
+- **Implementirana klasa za zapis formule**. Za iskaznu formulu važna je njena _interpretacija_
   (istinitosna vrednost; tačno, netačno) u datoj _valuaciji_. 
   Više o ovome pročitati u [skripti](http://poincare.matf.bg.ac.rs/~janicic//courses/vi.pdf),
   u delu "Sematika iskazne logike" (78 strana).
@@ -15,5 +15,5 @@
 
 - **Pokretanje Minisat rešavača**:
 	- Pogledati u slajdovima sa časa (144 - 167 slajd)
-	- '''./minisat input.cnf output.txt'''
+	- ```./minisat input.cnf output.txt```
 	- [Minisat](http://minisat.se/MiniSat.html)
