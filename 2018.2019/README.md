@@ -19,3 +19,6 @@ Repozitorijum posvecen kursu Vestacke Inteligencije na Matematickom fakultetu.
 - **kolokvijum**: _25 poena_, samo zadaci, radi se na papiru, u kolokvijumskoj nedelji
 - **test 2**: _12.5 poena_, samo teorija, pitanja na papiru, radi se za vreme časa predavanja
 - **ispit**: _50 poena_, zadaci (radi se na računaru) + teorija (20 pitanja na papiru)
+
+### Obaveštenja:
+- Konsultacije za grupu kojoj je asistent Danijela Simić će biti u petak, od 18.30 do 19.30, kabinet 716.
