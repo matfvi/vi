@@ -13115,7 +13115,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[167]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">copy</span>
@@ -13128,7 +13128,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[168]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">replace_literal</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">literal</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -13148,7 +13148,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[169]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]]</span>
@@ -13166,7 +13166,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[169]:</div>
+    <div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -13183,10 +13183,16 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[170]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_dimacs</span><span class="p">(</span><span class="n">dimacs_formula</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funkcija parsira formulu zapisanu u dimacs formatu</span>
+<span class="sd">    i vraca listu listi, odnosno listu klauza, pri cemu</span>
+<span class="sd">    su literali reprezentovani brojevima, a njihove negacije</span>
+<span class="sd">    negativnim brojevima.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">dimacs_formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     
     <span class="n">D</span> <span class="o">=</span> <span class="p">[]</span>
@@ -13215,7 +13221,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[197]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">DPLL</span><span class="p">(</span><span class="n">dimacs_formula</span><span class="p">):</span>
@@ -13230,15 +13236,23 @@ div#notebook {
     <span class="k">if</span> <span class="n">num_clauses</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">valuation</span>
     
+    <span class="c1"># ---------------------------------------------------</span>
+    <span class="c1"># {NEGATION SUPSTITION}</span>
+    <span class="c1"># Menjamo ~F -&gt; T, ~T -&gt; F</span>
+    <span class="c1"># ---------------------------------------------------</span>
+    <span class="c1"># Menjamo ~T -&gt; F i ~F -&gt; T</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># Idemo klauzu po klauzu</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_clauses</span><span class="p">):</span>
         <span class="n">clause</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>
         
+        <span class="c1"># Ako smo nasli praznu klauzu</span>
         <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
         
+        <span class="c1"># Iteriramo kroz literale u i-toj klauzi</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">clause</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-T&#39;</span><span class="p">:</span>
                 <span class="n">clause</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span>
@@ -13250,19 +13264,44 @@ div#notebook {
         
         <span class="n">new_D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>
         
-    <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_D</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_D</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">has_changes</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NEGATION SUBSTITUTION:&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+        
+        
+    <span class="c1"># Brisemo sve literale jedna F:</span>
+    <span class="n">new_D</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
+        <span class="n">new_clause</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">clause</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="s1">&#39;F&#39;</span><span class="p">:</span>
+                <span class="n">new_clause</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">new_D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_clause</span><span class="p">)</span>
     
+    <span class="k">if</span> <span class="n">has_changes</span><span class="p">:</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_D</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DELETED F from formula&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+
+    <span class="c1"># Proveravamo da li se pojavila prazna klauza (ovo verovatno nije neophodno)</span>
     <span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
-    
+        
+    <span class="c1"># ---------------------------------------------------</span>
+    <span class="c1"># {TAUTOLOGY}</span>
+    <span class="c1"># Ako neka klauza Ci sadrzi T ili sadrzi literal i</span>
+    <span class="c1"># njegovu negaciju, vracamo vrednost koju vraca</span>
+    <span class="c1"># DPLL(D \ Ci).</span>
+    <span class="c1"># ---------------------------------------------------</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="c1"># Tautology</span>
+       
     <span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
         <span class="n">new_clause</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">keep_clause</span> <span class="o">=</span> <span class="kc">True</span>
@@ -13275,10 +13314,12 @@ div#notebook {
                 
             <span class="k">if</span> <span class="n">literal</span> <span class="o">!=</span> <span class="s1">&#39;F&#39;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="o">-</span><span class="n">literal</span> <span class="ow">in</span> <span class="n">clause</span><span class="p">:</span>
+                    <span class="c1"># Postoji literal i njegova negacija u klauzi</span>
                     <span class="n">keep_clause</span> <span class="o">=</span> <span class="kc">False</span>
                     <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
                 <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Inace zadrzavamo literal</span>
                     <span class="n">new_clause</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">literal</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">True</span>
@@ -13287,25 +13328,30 @@ div#notebook {
             <span class="n">new_D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_clause</span><span class="p">)</span>
             
     <span class="n">D</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_D</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">has_changes</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;TAUTOLOGY:&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_DPLL</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">valuation</span><span class="p">)</span>
-        
+    
+    <span class="c1"># ---------------------------------------------------</span>
+    <span class="c1"># {UNIT PROPAGATION}</span>
+    <span class="c1"># Ako je neka klauza jedinicna i jednaka nekom iskaznom</span>
+    <span class="c1"># slovu p, onda vracamo DPLL(D[p -&gt; T])</span>
+    <span class="c1"># Ako je neka klauza jedinicna i jednaka nekom iskaznom</span>
+    <span class="c1"># slovu ~p, onda vracamo DPLL(D[p -&gt; F])</span>
+    <span class="c1"># ---------------------------------------------------</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="c1"># Unit propagation</span>
     <span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
         <span class="n">new_clause</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">keep_clause</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Jedinicna klauza</span>
             <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">clause</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            
             <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">valuation</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>    
+                <span class="n">valuation</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">new_D</span> <span class="o">=</span> <span class="n">replace_literal</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">l</span><span class="p">),</span> <span class="s1">&#39;T&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">valuation</span><span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -13313,26 +13359,31 @@ div#notebook {
             <span class="k">break</span>
         <span class="k">if</span> <span class="n">keep_clause</span><span class="p">:</span>
             <span class="n">new_D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>
-                    
     <span class="n">D</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_D</span><span class="p">)</span>
-                
     <span class="k">if</span> <span class="n">has_changes</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;UNIT_PROPAGATION:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;UNIT PROPAGATION&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_DPLL</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">valuation</span><span class="p">)</span>
     
+    <span class="c1"># ---------------------------------------------------</span>
+    <span class="c1"># {PURE LITERAL}</span>
+    <span class="c1"># Ako D sadrzi literal p, ali ne i ~p,</span>
+    <span class="c1"># onda vracamo DPLL(D[p -&gt; T]).</span>
+    <span class="c1"># Ako D sadrzi literal ~p, ali ne i p,</span>
+    <span class="c1"># onda vracamo DPLL(D[p -&gt; F])</span>
+    <span class="c1"># ---------------------------------------------------</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">False</span>
-    
-    <span class="c1"># Pure literal</span>
-    
     <span class="n">all_literals</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
         <span class="n">all_literals</span> <span class="o">+=</span> <span class="n">clause</span>
-    
-    <span class="n">distinct_literals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">all_literals</span><span class="p">]))</span>
-    
+        
+    <span class="c1"># Nadjemo sve jedinstvene literale</span>
+    <span class="n">distinct_literals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">all_literals</span><span class="p">]))</span>
+    <span class="n">distinct_literals</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">distinct_literals</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">distinct_literals</span><span class="p">:</span>
+        <span class="c1"># Proveravamo da li za l ne postoji njegova negacija</span>
         <span class="k">if</span> <span class="o">-</span><span class="n">l</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_literals</span><span class="p">:</span>
             <span class="n">has_changes</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -13349,20 +13400,23 @@ div#notebook {
         <span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_DPLL</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">valuation</span><span class="p">)</span>
     
+    <span class="c1"># ---------------------------------------------------</span>
+    <span class="c1"># {SPLIT}</span>
+    <span class="c1"># ---------------------------------------------------</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="p">[]</span>
-    
-    <span class="c1"># Split</span>
-    
+    <span class="c1"># Ovo je vrlo vazan korak algoritma koji moze</span>
+    <span class="c1"># drasticno uticati na efikasnost izavrsavanja algoritma,</span>
+    <span class="c1"># jer odabir literala za korak SPLIT utice na dalji tok</span>
+    <span class="c1"># pretrage.</span>
     <span class="n">selected_literal</span> <span class="o">=</span> <span class="n">distinct_literals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    
     <span class="n">valuation</span><span class="p">[</span><span class="n">selected_literal</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="n">replace_literal</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">selected_literal</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SPLIT [</span><span class="si">{}</span><span class="s1">-&gt;T]:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selected_literal</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">new_D</span><span class="p">)</span>
-    <span class="p">[</span><span class="n">res</span><span class="p">,</span> <span class="n">valuation</span><span class="p">]</span> <span class="o">=</span> <span class="n">_DPLL</span><span class="p">(</span><span class="n">new_D</span><span class="p">,</span> <span class="n">valuation</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">valuation2</span> <span class="o">=</span> <span class="n">_DPLL</span><span class="p">(</span><span class="n">new_D</span><span class="p">,</span> <span class="n">valuation</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">res</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">valuation</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">valuation2</span>
     
     <span class="n">valuation</span><span class="p">[</span><span class="n">selected_literal</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">new_D</span> <span class="o">=</span> <span class="n">replace_literal</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">selected_literal</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
@@ -13379,7 +13433,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[199]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dimacs</span> <span class="o">=</span> <span class="s1">&#39;p cnf 3 2</span><span class="se">\n</span><span class="s1">1 2 3 0</span><span class="se">\n</span><span class="s1">-1 -2 -3 0</span><span class="se">\n</span><span class="s1">3 0&#39;</span>
@@ -13406,22 +13460,19 @@ div#notebook {
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>START:
 [[1, 2, 3], [-1, -2, -3], [3]]
-UNIT_PROPAGATION:
+UNIT PROPAGATION
 [[1, 2, &#39;T&#39;], [-1, -2, &#39;-T&#39;], [&#39;T&#39;]]
 NEGATION SUBSTITUTION:
 [[1, 2, &#39;T&#39;], [-1, -2, &#39;F&#39;], [&#39;T&#39;]]
+DELETED F from formula
+[[1, 2, &#39;T&#39;], [-1, -2], [&#39;T&#39;]]
 TAUTOLOGY:
 [[-1, -2]]
-SPLIT [1-&gt;T]:
-[[&#39;-T&#39;, -2]]
+[-1, -2]
+PURE LITERAL:
+[[&#39;-F&#39;, -2]]
 NEGATION SUBSTITUTION:
-[[&#39;F&#39;, -2]]
-TAUTOLOGY:
-[[-2]]
-UNIT_PROPAGATION:
-[[&#39;-F&#39;]]
-NEGATION SUBSTITUTION:
-[[&#39;T&#39;]]
+[[&#39;T&#39;, -2]]
 TAUTOLOGY:
 []
 </pre>
@@ -13430,13 +13481,13 @@ TAUTOLOGY:
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[199]:</div>
+    <div class="prompt output_prompt">Out[6]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(True, {3: True, 1: True, 2: False})</pre>
+<pre>(True, {1: False, 3: True})</pre>
 </div>
 
 </div>
@@ -13447,10 +13498,10 @@ TAUTOLOGY:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_DPLL</span><span class="p">([[</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span> <span class="p">{})</span>
 </pre></div>
 
     </div>
@@ -13466,17 +13517,45 @@ TAUTOLOGY:
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-67-e8be37901f21&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>index<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">ValueError</span>: 4 is not in list</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>DELETED F from formula
+[[1], [&#39;T&#39;, 2]]
+TAUTOLOGY:
+[[1]]
+UNIT PROPAGATION
+[[&#39;T&#39;]]
+TAUTOLOGY:
+[]
+</pre>
 </div>
 </div>
 
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, {1: True})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 
