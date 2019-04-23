@@ -1,0 +1,697 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Syntax of Sugar CSP description</title>
+<link rel="stylesheet" href="syntax.css" type="text/css">
+</head>
+<body>
+<center>
+<h1>Syntax of Sugar CSP description</h1>
+<!-- hhmts start -->Last modified: Tue Jun 29 13:09:26 2010 JST
+<!-- hhmts end -->
+</center>
+<hr>
+<h2>Introduction</h2>
+This document explains the syntax of CSP
+(Constraint Satisfaction Problem) files for
+<a href="http://bach.istc.kobe-u.ac.jp/sugar/">Sugar constraint solver</a>.
+The syntax is designed to cover the abridged notation of
+<a href="http://www.cril.univ-artois.fr/CPAI08/XCSP2_1.pdf">the XCSP 2.1 format</a>
+used at the <a href="http://cpai.ucc.ie">International CSP Solver Competitions</a>.
+
+<!-- ================================================================ -->
+<h2>Preliminaries</h2>
+<pre class="definition">
+<i>Integer</i> ::=
+    <i>Digit</i>+ | <tt>-</tt><i>Digit</i>+
+<i>Digit</i> ::=
+    <tt>0</tt> | <tt>1</tt> | <tt>2</tt> | <tt>3</tt> | <tt>4</tt> | <tt>5</tt> | <tt>6</tt> | <tt>7</tt> | <tt>8</tt> | <tt>9</tt>
+<i>Symbol</i> ::=
+    <i>SymbolCharacter</i>+  /* except sequences interpreted as integers */
+<i>SymbolCharacter</i> ::=
+    /* any character from A-Z a-z 0-9 _ . + - * / % = &lt; &gt; ! & | and \u00080-\u10FFFF */
+<i>Comment</i> ::=
+    <tt>;</tt> /* followed by characters until the end of line */
+</pre>
+
+<!-- ================================================================ -->
+<h2>Domain Definitions</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>DomainDefinition</i> ::=
+    <tt>(domain</tt> <i>DomainName</i> <i>LowerBound</i> <i>UpperBound</i><tt>)</tt> |
+    <tt>(domain</tt> <i>DomainName</i> <tt>(</tt><i>Range</i>+<tt>)</tt><tt>)</tt> |
+    <tt>(domain</tt> <i>DomainName</i> <i>Value</i><tt>)</tt>
+<i>DomainName</i> ::=
+    <i>Symbol</i>
+<i>LowerBound</i> ::=
+    <i>Integer</i>
+<i>UpperBound</i> ::=
+    <i>Integer</i>
+<i>Value</i> ::=
+    <i>Integer</i>
+<i>Range</i> ::=
+    <i>Integer</i> | <tt>(</tt><i>Integer</i> <i>Integer</i><tt>)</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>Domain names should not be duplicated.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(domain d0 1000 2000)         ; d0 = { x | 1000 &le; x &le; 2000 }
+(domain d1 ((1 3) 5 (10 12))) ; d1 = { 1, 2, 3, 5, 10, 11, 12 }
+(domain d2 1000)              ; d2 = { 1000 }
+</pre>
+
+<!-- ================================================================ -->
+<h2>Integer Variable Definitions</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>IntegerVariableDefinition</i> ::=
+    <tt>(int</tt> <i>IntegerVariableName</i> <i>DomainName</i><tt>)</tt> |
+    <tt>(int</tt> <i>IntegerVariableName</i> <i>LowerBound</i> <i>UpperBound</i><tt>)</tt> |
+    <tt>(int</tt> <i>IntegerVariableName</i> <tt>(</tt><i>Range</i>+<tt>)</tt><tt>)</tt> |
+    <tt>(int</tt> <i>IntegerVariableName</i> <i>Value</i><tt>)</tt>
+<i>IntegerVariableName</i> ::=
+    <i>Symbol</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>Integer variable names should not be duplicated.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(int x0 d0)                ; x0 &isin; d0
+(int x1 1000 2000)         ; x1 &isin; { x | 1000 &le; x &le; 2000 }
+(int x2 ((1 3) 5 (10 12))) ; x2 &isin; { 1, 2, 3, 5, 10, 11, 12 }
+(int x3 1000)              ; x3 &isin; { 1000 }, i.e. x3 = 1000
+</pre>
+
+<!-- ================================================================ -->
+<h2>Boolean Variable Definitions</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>BooleanVariableDefinition</i> ::=
+    <tt>(bool</tt> <i>BooleanVariableName</i><tt>)</tt>
+<i>BooleanVariableName</i> ::=
+    <i>Symbol</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>Boolean variable names should not be duplicated.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(bool p0)
+</pre>
+
+<!-- ================================================================ -->
+<h2>Terms</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>Term</i> ::=
+    <i>Integer</i> |
+    <i>IntegerVariableName</i> |
+    <tt>(abs</tt> <i>Term</i><tt>)</tt> |
+    <tt>(neg</tt> <i>Term</i><tt>)</tt> | <tt>(-</tt> <i>Term</i><tt>)</tt> |
+    <tt>(add</tt> <i>Term</i>*<tt>)</tt> | <tt>(+</tt> <i>Term</i>*<tt>)</tt> |
+    <tt>(sub</tt> <i>Term</i> <i>Term</i>+<tt>)</tt> | <tt>(-</tt> <i>Term</i> <i>Term</i>+<tt>)</tt> |
+    <tt>(mul</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(*</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(div</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(/</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(mod</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(%</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(pow</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(min</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(max</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(if</tt> <i>LogicalFormula</i> <i>Term</i> <i>Term</i><tt>)</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>At least one argument of <tt>mul</tt> should be an integer constant.
+  However, some special cases (such as <tt>(&lt; (* x y) 0)</tt>) are allowed.
+  <li>The second argument of <tt>div</tt> and <tt>mod</tt> should be
+  a positive integer constant.
+  <li><tt>pow</tt> is not supported.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(- x y z)  ; means x-y-z
+</pre>
+
+<!-- ================================================================ -->
+<h2>Relation Definitions</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>RelationDefinition</i> ::=
+    <tt>(relation</tt> <i>RelationName</i> <i>Arity</i> <i>RelationBody</i><tt>)</tt>
+<i>RelationName</i> ::=
+    <i>Symbol</i>
+<i>Arity</i> ::=
+    <i>Integer</i>
+<i>RelationBody</i> ::=
+    <tt>(</tt><i>RelationType</i> <i>Tuple</i>*<tt>)</tt>
+<i>RelationType</i> ::=
+    <tt>supports</tt> | <tt>conflicts</tt>
+<i>Tuple</i> ::=
+    <tt>(</tt><i>Integer</i>+<tt>)</tt>
+</pre>
+
+<!--
+<h3>Remarks</h3>
+<ul>
+  <li>
+</ul>
+-->
+
+<h3>Examples</h3>
+<pre class="program">
+(relation r0 2 (conflicts (0 0) (1 1) (2 2)))
+</pre>
+
+<!-- ================================================================ -->
+<h2>Predicate Definitions</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>PredicateDefinition</i> ::=
+    <tt>(predicate</tt> <i>PredicateHead</i> <i>PredicateBody</i><tt>)</tt>
+<i>PredicateHead</i> ::=
+    <tt>(</tt><i>PredicateName</i> <i>Parameter</i>*<tt>)</tt>
+<i>PredicateName</i> ::=
+    <i>Symbol</i>
+<i>Parameter</i> ::=
+    <i>IntegerVariableName</i>
+<i>PredicateBody</i> ::=
+    <i>LogicalFormula</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>Recursive definitions are not allowed.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(predicate (p0 x1 x2) (&lt;= x1 (+ x2 1))  ; (p0 x1 x2) &hArr; x1 &le; x2+1
+</pre>
+
+<!-- ================================================================ -->
+<h2>Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>Constraint</i> ::=
+    <i>LogicalFormula</i>
+
+<i>LogicalFormula</i> ::=
+    <i>AtomicFormula</i> |
+    <tt>(not</tt> <i>LogicalFormula</i><tt>)</tt> | <tt>(!</tt> <i>LogicalFormula</i><tt>)</tt> |
+    <tt>(and</tt> <i>LogicalFormula</i>*<tt>)</tt> | <tt>(&amp;&amp;</tt> <i>LogicalFormula</i>*<tt>)</tt> |
+    <tt>(or</tt> <i>LogicalFormula</i>*<tt>)</tt> | <tt>(||</tt> <i>LogicalFormula</i>*<tt>)</tt> |
+    <tt>(imp</tt> <i>LogicalFormula</i> <i>LogicalFormula</i><tt>)</tt> | <tt>(=&gt;</tt> <i>LogicalFormula</i> <i>LogicalFormula</i><tt>)</tt> |
+    <tt>(xor</tt> <i>LogicalFormula</i> <i>LogicalFormula</i><tt>)</tt> |
+    <tt>(iff</tt> <i>LogicalFormula</i> <i>LogicalFormula</i><tt>)</tt>
+
+<i>AtomicFormula</i> ::=
+    <tt>false</tt> | <tt>true</tt> | <i>BooleanVariableName</i> |
+    <tt>(eq</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(=</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(ne</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(!=</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(le</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(&lt;=</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(lt</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(&lt;</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(ge</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(&gt;=</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(gt</tt> <i>Term</i> <i>Term</i><tt>)</tt> | <tt>(&gt;</tt> <i>Term</i> <i>Term</i><tt>)</tt> |
+    <tt>(</tt><i>RelationName</i> <i>Term</i>*<tt>)</tt> |
+    <tt>(</tt><i>PredicateName</i> <i>Term</i>*<tt>)</tt> |
+    <i>AllDifferentConstraint</i> |
+    <i>WeightedSumConstraint</i> |
+    <i>CumulativeConstraint</i> |
+    <i>ElementConstraint</i> |
+    <i>DisjunctiveConstraint</i> |
+    <i>Lex_lessConstraint</i> |
+    <i>Lex_lesseqConstraint</i> |
+    <i>NvalueConstraint</i> |
+    <i>Global_cardinalityConstraint</i> |
+    <i>Global_cardinality_with_costsConstraint</i> |
+    <i>CountConstraint</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li><tt>(and)</tt> means <tt>true</tt>.
+  <li><tt>(or)</tt> means <tt>false</tt>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(or p0 (r0 x4 x5) (&gt;= x0 (+ x0 1))
+</pre>
+
+<!-- ================================================================ -->
+<h2>AllDifferent Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>AllDifferentConstraint</i> ::=
+    <tt>(alldifferent</tt> <i>Term</i>*<tt>)</tt> |
+    <tt>(alldifferent</tt> <tt>(</tt><i>Term</i>*<tt>))</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Calldifferent.html">
+  alldifferent constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(alldifferent (+ x1 1) (+ x2 2) (+ x3 3) (+ x4 4))
+(alldifferent ((+ x1 1) (+ x2 2) (+ x3 3) (+ x4 4)))
+</pre>
+
+<!-- ================================================================ -->
+<h2>WeightedSum Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>WeightedSumConstraint</i> ::=
+    <tt>(weightedsum</tt> <tt>(</tt><i>WeightedPair</i>*<tt>)</tt> <i>ComparisonName</i> <i>Term</i><tt>)</tt>
+<i>WeightedPair</i> ::=
+    <tt>(</tt><i>Weight</i> <i>Term</i><tt>)</tt>
+<i>Weight</i> ::=
+    <i>Integer</i>
+<i>ComparisionName</i> ::=
+    <tt>eq</tt> | <tt>ne</tt> | <tt>le</tt> | <tt>lt</tt> | <tt>ge</tt> | <tt>gt</tt>
+</pre>
+
+<!--
+<h3>Remarks</h3>
+<ul>
+  <li>
+</ul>
+-->
+
+<h3>Examples</h3>
+<pre class="program">
+(weightedsum ((1 v0) (2 v1) (-3 v2)) gt 12)  ; means 1*v0+2*v1-3*v3 &gt; 12
+</pre>
+
+<!-- ================================================================ -->
+<h2>Cumulative Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>CumulativeConstraint</i> ::=
+    <tt>(cumulative</tt> <tt>(</tt><i>Task</i>*<tt>)</tt> <i>Limit</i><tt>)</tt> |
+<i>Task</i> ::=
+    <tt>(</tt><i>Origin</i> <i>Duration</i> <i>End</i> <i>Height</i><tt>)</tt>
+<i>Origin</i> ::=
+    <i>Term</i> | <tt>nil</tt>
+<i>Duration</i> ::=
+    <i>Term</i> | <tt>nil</tt>
+<i>End</i> ::=
+    <i>Term</i> | <tt>nil</tt>
+<i>Height</i> ::=
+    <i>Term</i>
+<i>Limit</i> ::=
+    <i>Term</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>At most one of the origin, duration, and end for each task can be <tt>nil</tt>.
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Ccumulative.html">
+  cumulative constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(cumulative ((s0 2 nil 1) (s1 2 nil 1) (s2 2 nil 1) (s3 2 nil 1)) 2)
+</pre>
+
+<!-- ================================================================ -->
+<h2>Element Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>ElementConstraint</i> ::=
+    <tt>(element</tt> <i>Index</i> <tt>(</tt><i>Term</i>+<tt>)</tt> <i>Value</i><tt>)</tt>
+<i>Index</i> ::=
+    <i>Term</i>
+<i>Value</i> ::=
+    <i>Term</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>The index value starts from 1.
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Celement.html">
+  element constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(element i (x1 x2 x3 x4) xi)
+</pre>
+
+<!-- ================================================================ -->
+<h2>Disjunctive Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>DisjunctiveConstraint</i> ::=
+    <tt>(disjunctive</tt> <tt>(</tt><i>Task</i>+<tt>)</tt><tt>)</tt>
+<i>Task</i> ::=
+    <tt>(</tt><i>Origin</i> <i>Duration</i><tt>)</tt>
+<i>Origin</i> ::=
+    <i>Term</i>
+<i>Duration</i> ::=
+    <i>Term</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Cdisjunctive.html">
+  disjunctive constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(disjunctive ((s1 3) (s2 0) (s3 2) (s4 1)))
+</pre>
+
+<!-- ================================================================ -->
+<h2>Lex_less Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>Lex_lessConstraint</i> ::=
+    <tt>(lex_less</tt> <i>Vector</i> <i>Vector</i><tt>)</tt>
+<i>Vector</i> ::=
+    <tt>(</tt><i>Term</i>+<tt>)</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>The first vector is strictly less than the second vector.
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Clex_less.html">
+  lex_less constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+  <li>Two vectors should have the same length.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(lex_less (x1 x2 x3) (y1 y2 y3))
+</pre>
+
+<!-- ================================================================ -->
+<h2>Lex_lesseq Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>Lex_lesseqConstraint</i> ::=
+    <tt>(lex_lesseq</tt> <i>Vector</i> <i>Vector</i><tt>)</tt>
+<i>Vector</i> ::=
+    <tt>(</tt><i>Term</i>+<tt>)</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>The first vector is less than or equal to the second vector.
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Clex_lesseq.html">
+  lex_lesseq constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+  <li>Two vectors should have the same length.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(lex_lesseq (x1 x2 x3) (y1 y2 y3))
+</pre>
+
+<!-- ================================================================ -->
+<h2>Nvalue Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>NvalueConstraint</i> ::=
+    <tt>(nvalue</tt> <i>Term</i> <tt>(</tt><i>Term</i>+<tt>)</tt><tt>)</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>The first term is equal to the number of distinct values
+  in the list of terms.
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Cnvalue.html">
+  nvalue constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(nvalue count (x1 x2 x3))
+</pre>
+
+<!-- ================================================================ -->
+<h2>Global_cardinality Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>Global_cardinalityConstraint</i> ::=
+    <tt>(global_cardinality</tt> <tt>(</tt><i>Term</i>+<tt>)</tt> <tt>(</tt><i>Cardinality</i>+<tt>)</tt><tt>)</tt>
+<i>Cardinality</i> ::=
+    <tt>(</tt><i>Value</i> <i>Count</i><tt>)</tt>
+<i>Value</i> ::=
+    <i>Integer</i>
+<i>Count</i> ::=
+    <i>Term</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Cglobal_cardinality.html">
+  global_cardinality constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(global_cardinality (x1 x2 x3) ((1 c1) (2 c2)))
+</pre>
+
+<!-- ================================================================ -->
+<h2>Global_cardinality_with_costs Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>Global_cardinality_with_costsConstraint</i> ::=
+    <tt>(global_cardinality_with_costs</tt> <tt>(</tt><i>Term</i>+<tt>)</tt> <tt>(</tt><i>Cardinality</i>+<tt>)</tt> <tt>(</tt><i>CostTable</i>+<tt>)</tt> <i>Cost</i><tt>)</tt>
+<i>Cardinality</i> ::=
+    <tt>(</tt><i>Value</i> <i>Count</i><tt>)</tt>
+<i>Value</i> ::=
+    <i>Integer</i>
+<i>Count</i> ::=
+    <i>Term</i>
+<i>CostTable</i> ::=
+    <tt>(</tt><i>Integer</i> <i>Integer</i> <i>Integer</i><tt>)</tt>
+<i>Cost</i> ::=
+    <i>Term</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Cglobal_cardinality_with_costs.html">
+  global_cardinality_with_costs constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(global_cardinality_with_costs (x1 x2 x3) ((1 c1) (2 c2))
+  ((1 1 2) (1 2 3) (2 1 1) (2 2 4)) cost)
+</pre>
+
+<!-- ================================================================ -->
+<h2>Count Constraints</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>CountConstraint</i> ::=
+    <tt>(count</tt> <i>Value</i> <tt>(</tt><i>Term</i>+<tt>)</tt> <i>ComparisonName</i> <i>Term</i><tt>)</tt>
+<i>Value</i> ::=
+    <i>Term</i>
+<i>ComparisionName</i> ::=
+    <tt>eq</tt> | <tt>ne</tt> | <tt>le</tt> | <tt>lt</tt> | <tt>ge</tt> | <tt>gt</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>See <a href="http://www.emn.fr/x-info/sdemasse/gccat/Ccount.html">
+  count constaint</a> in
+  <a href="http://www.emn.fr/x-info/sdemasse/gccat/">the Global Constraint Catalog</a>.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(count 2 (x1 x2 x3) eq 1)
+</pre>
+
+<!-- ================================================================ -->
+<h2>Objective Declaration</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>ObjectiveDeclaration</i> ::=
+    <tt>(objective</tt> <i>Goal</i> <i>IntegerVariableName</i><tt>)</tt>
+<i>Goal</i> ::=
+    <tt>minimize</tt> | <tt>maximize</tt>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>Objective declaration should not be duplicated.
+  <li>MAX-CSP should not include objective declarations.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+(objective minimize x0)  ; The objective is minimizing the value of x0.
+(objective maximize x1)  ; The objective is maximizing the value of x1.
+</pre>
+
+<!-- ================================================================ -->
+<h2>CSP</h2>
+<h3>Syntax</h3>
+<pre class="definition">
+<i>CSP</i> ::=
+    <i>Statement</i>*
+
+<i>Statement</i> ::=
+    <i>DomainDefinition</i> |
+    <i>IntegerVariableDefinition</i> |
+    <i>BooleanVariableDefinition</i> |
+    <i>RelationDefinition</i> |
+    <i>PredicateDefinition</i> |
+    <i>ObjectiveDeclaration</i> |
+    <i>Constaint</i>
+</pre>
+
+<h3>Remarks</h3>
+<ul>
+  <li>Definitions should preceed their usage.
+  <li>Objective variable should be defined before the use in the
+  objective declaration.
+  <li>Relation names and predicate names should not be duplicated.
+</ul>
+
+<h3>Examples</h3>
+<pre class="program">
+; Magic Square 3 x 3
+(int x_1_1 1 9)
+(int x_1_2 1 9)
+(int x_1_3 1 9)
+(int x_2_1 1 9)
+(int x_2_2 1 9)
+(int x_2_3 1 9)
+(int x_3_1 1 9)
+(int x_3_2 1 9)
+(int x_3_3 1 9)
+(alldifferent x_1_1 x_1_2 x_1_3 x_2_1 x_2_2 x_2_3 x_3_1 x_3_2 x_3_3)
+(= (+ x_1_1 x_1_2 x_1_3) 15)
+(= (+ x_2_1 x_2_2 x_2_3) 15)
+(= (+ x_3_1 x_3_2 x_3_3) 15)
+(= (+ x_1_1 x_2_1 x_3_1) 15)
+(= (+ x_1_2 x_2_2 x_3_2) 15)
+(= (+ x_1_3 x_2_3 x_3_3) 15)
+(= (+ x_1_1 x_2_2 x_3_3) 15)
+(= (+ x_1_3 x_2_2 x_3_1) 15)
+; END
+</pre>
+
+<pre class="program">
+; Golomb ruler of 4 marks
+(int length 6 7)
+(objective minimize length)
+(int m_0 0 0)
+(int m_1 0 7)
+(int m_2 0 7)
+(int m_3 0 7)
+(&lt; m_0 m_1)
+(&lt; m_1 m_2)
+(&lt; m_2 m_3)
+(&lt;= m_3 length)
+(int d_1_0 0 7)
+(= d_1_0 (- m_1 m_0))
+(int d_2_0 0 7)
+(= d_2_0 (- m_2 m_0))
+(int d_3_0 0 7)
+(= d_3_0 (- m_3 m_0))
+(int d_2_1 0 7)
+(= d_2_1 (- m_2 m_1))
+(int d_3_1 0 7)
+(= d_3_1 (- m_3 m_1))
+(int d_3_2 0 7)
+(= d_3_2 (- m_3 m_2))
+(alldifferent d_1_0 d_2_0 d_3_0 d_2_1 d_3_1 d_3_2)
+; END
+</pre>
+
+<pre class="program">
+; 4-Queens Problem
+(int q_1 1 4)
+(int q_2 1 4)
+(int q_3 1 4)
+(int q_4 1 4)
+(alldifferent q_1 q_2 q_3 q_4)
+(alldifferent (+ q_1 1) (+ q_2 2) (+ q_3 3) (+ q_4 4))
+(alldifferent (- q_1 1) (- q_2 2) (- q_3 3) (- q_4 4))
+; END
+</pre>
+
+<pre class="program">
+; Open-Shop Scheduling Problem gp03-01
+(int makespan 1000 1509)
+(objective minimize makespan)
+(int s_0_0 0 1509)
+(&lt;= (+ s_0_0 661) makespan)
+(int s_0_1 0 1509)
+(&lt;= (+ s_0_1 6) makespan)
+(int s_0_2 0 1509)
+(&lt;= (+ s_0_2 333) makespan)
+(int s_1_0 0 1509)
+(&lt;= (+ s_1_0 168) makespan)
+(int s_1_1 0 1509)
+(&lt;= (+ s_1_1 489) makespan)
+(int s_1_2 0 1509)
+(&lt;= (+ s_1_2 343) makespan)
+(int s_2_0 0 1509)
+(&lt;= (+ s_2_0 171) makespan)
+(int s_2_1 0 1509)
+(&lt;= (+ s_2_1 505) makespan)
+(int s_2_2 0 1509)
+(&lt;= (+ s_2_2 324) makespan)
+(or (&lt;= (+ s_0_0 661) s_0_1) (&lt;= (+ s_0_1 6) s_0_0))
+(or (&lt;= (+ s_0_0 661) s_0_2) (&lt;= (+ s_0_2 333) s_0_0))
+(or (&lt;= (+ s_0_1 6) s_0_2) (&lt;= (+ s_0_2 333) s_0_1))
+(or (&lt;= (+ s_1_0 168) s_1_1) (&lt;= (+ s_1_1 489) s_1_0))
+(or (&lt;= (+ s_1_0 168) s_1_2) (&lt;= (+ s_1_2 343) s_1_0))
+(or (&lt;= (+ s_1_1 489) s_1_2) (&lt;= (+ s_1_2 343) s_1_1))
+(or (&lt;= (+ s_2_0 171) s_2_1) (&lt;= (+ s_2_1 505) s_2_0))
+(or (&lt;= (+ s_2_0 171) s_2_2) (&lt;= (+ s_2_2 324) s_2_0))
+(or (&lt;= (+ s_2_1 505) s_2_2) (&lt;= (+ s_2_2 324) s_2_1))
+(or (&lt;= (+ s_0_0 661) s_1_0) (&lt;= (+ s_1_0 168) s_0_0))
+(or (&lt;= (+ s_0_0 661) s_2_0) (&lt;= (+ s_2_0 171) s_0_0))
+(or (&lt;= (+ s_1_0 168) s_2_0) (&lt;= (+ s_2_0 171) s_1_0))
+(or (&lt;= (+ s_0_1 6) s_1_1) (&lt;= (+ s_1_1 489) s_0_1))
+(or (&lt;= (+ s_0_1 6) s_2_1) (&lt;= (+ s_2_1 505) s_0_1))
+(or (&lt;= (+ s_1_1 489) s_2_1) (&lt;= (+ s_2_1 505) s_1_1))
+(or (&lt;= (+ s_0_2 333) s_1_2) (&lt;= (+ s_1_2 343) s_0_2))
+(or (&lt;= (+ s_0_2 333) s_2_2) (&lt;= (+ s_2_2 324) s_0_2))
+(or (&lt;= (+ s_1_2 343) s_2_2) (&lt;= (+ s_2_2 324) s_1_2))
+; END
+</pre>
+
+<hr>
+<address>
+<a href="http://bach.istc.kobe-u.ac.jp/tamura.html">Naoyuki Tamura</a>
+</address>
+</body>
+</html>

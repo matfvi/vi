@@ -1,0 +1,48 @@
+body {
+  background: white;
+  font-family: times, serif;
+}
+
+h2 { 
+  background: lightgray;
+}
+
+tt {
+  font-family: courier, monospace;
+  font-weight: bold;
+  font-style: normal;
+}
+
+pre.definition {
+  margin-left: 40pt;
+  margin-right: 40pt;
+  padding: 10pt;
+  background-color: khaki;
+  color: green;
+  font-family: courier, monospace;
+  font-weight: bold;
+  font-style: normal;
+}
+
+pre.definition i {
+  color: darkblue;
+  font-family: helvetica, sans-serif;
+  font-weight: normal;
+  font-style: italic;
+}
+
+pre.definition tt {
+  color: black;
+  font-family: courier, monospace;
+  font-weight: bold;
+  font-style: normal;
+}
+
+pre.program {
+  margin-left: 40pt;
+  margin-right: 40pt;
+  padding: 10pt;
+  background-color: gainsboro;
+  font-family: courier, monospace;
+  font-weight: bold;
+}

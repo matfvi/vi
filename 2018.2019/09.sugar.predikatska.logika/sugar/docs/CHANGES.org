@@ -1,0 +1,85 @@
+#+TITLE: CHANGES of Sugar
+#+AUTHOR: @<a href='http://bach.istc.kobe-u.ac.jp/tamura.html'>Naoyuki Tamura@</a>
+#+EMAIL: 
+#+STARTUP: overview hidestars nologdone
+#+LANGUAGE: en
+#+OPTIONS: toc:t H:3 num:nil author:t creator:t todo:nil pri:nil tags:nil LaTeX:nil ^:nil @:t
+#+STYLE: <link rel="stylesheet" type="text/css" href="/include/org-common.css">
+#+STYLE: <link rel="stylesheet" type="text/css" href="/include/org-toc-right.css">
+#+INFOJS_OPT: view:showall toc:t tdepth:2 ltoc:nil mouse:#ffffcc path:/include/org-info.js
+#+MATHJAX: align:"left" mathml:nil path:"/include/mathjax/MathJax.js"
+# #+INCLUDE: menu.txt
+* Overview
+  This document describes the major changes of
+  [[http://bach.istc.kobe-u.ac.jp/sugar/][Sugar]] (A SAT-based Constraint Solver).
+* Version 2.3.3 [2018-03-19 Mon]
+  - Bug fix for mul constraint
+  - Bug fix for min constraint
+    Domain of "(min 2 (if x 1 3))" was wrongly inferenced.
+* Version 2.3.2 [2016-12-25 Sun]
+  - Support of P-minimal model enumeration for MO-COP with hybrid encoding
+* Version 2.3.1 [2016-03-05 Sat]
+  - Support of optimization in hybrid encoding
+* Version 2.3.0
+  - Experimental implementation of hybrid encoding
+* Version 2.2.2
+  - Output code of multiplication is changed
+  - Bug fix in PB encoding when UNSAT PB is given
+  - Support of mixed PB encoding
+* Version 2.2.1 [2014-07-06 Sun]
+  - Modified for Copris 2.2.5
+* Version 2.2.0 [2014-06-28 Sat]
+  - CSP to PB encoding is implemented.
+    : sugar -pb -o pb_b,no_reduce,no_simp -solver pbsolver input.csp
+  - Now, "solver" option allows to specify argument file positions.
+    : sugar -solver "glucose30 %s %o" input.csp
+* Version 2.1.3 [2013-12-01 Sun]
+  - Converter is modified to support SugarLoader and XCSPLoader of Copris.
+  - Inequalities are used to introduce aux variables in inequalties.
+* Version 2.1.2 [2013-10-13 Sun]
+  - GCNF and GWCNF output
+    : sugar -n -o gcnf -sat output.gcnf input.csp
+  - New option in CSP-to-CSP translator
+    : sugar -o arity=3 -translate csp -output output.csp input.csp
+  - SMT output (QF_LIA) in CSP-to-CSP translator
+    : sugar -o no_norm,no_reduce -translate smt -output output.smt2 input.csp
+  - Use cache in Tseitin transformation.
+    Cache size can be changed by "-o simp_cache=2000" (default 1000).
+* Version 2.1.0 [2013-08-24 Sat]
+  - Bug fix when the given CSP is trivially unsatisfiable.
+  - Code refactoring
+* Version 2.0.0
+  - Package name space is changed to jp.kobe_u.sugar from jp.ac.kobe_u.cs.sugar.
+  - Refactoring code of the Converter program
+  - Refactoring code of the Encoder program
+  - CSP-to-CSP translation mode is added
+    + See http://bach.istc.kobe-u.ac.jp/sugar/docs/translator.html
+  - Bug fix for negative relations
+* Version 1.15
+  - Support for Scala interface named Copris (Constraint Programming in Scala)
+    is added (see http://bach.istc.kobe-u.ac.jp/copris/).
+* Version 1.14
+  - UTF-8 code support for CSP files
+  - Incremental search mode for optimization problems
+  - Show values of bool variables
+  - Debug option is added
+  - Following global constraints are added
+    + disjunctive
+    + lex_less
+    + lex_lesseq
+    + nvalue
+    + global_cardinality
+    + global_cardinality_with_costs
+    + count
+  - Performance improvements
+    + Expressions are encoded from smaller domain size variables
+    + Smaller domain expressions are directly encoded withou introducing
+      new variables
+* Version 1.13
+  - Global constraint "allDifferent" is renamed to "alldifferent".
+  - Global constraint "weightedSum" is renamed to "weightedsum".
+  - "alldifferent" constraint is modified to accept a single list argument.
+    + Both "(alldifferent x1 x2 x3)" and "(alldifferent (x1 x2 x3))"
+      can be used.
+  - Maximization is supported.
+  - Bug fix for picosat support.

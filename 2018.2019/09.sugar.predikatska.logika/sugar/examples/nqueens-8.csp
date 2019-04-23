@@ -1,0 +1,13 @@
+; 8-Queens Problem
+(int q_1 1 8)
+(int q_2 1 8)
+(int q_3 1 8)
+(int q_4 1 8)
+(int q_5 1 8)
+(int q_6 1 8)
+(int q_7 1 8)
+(int q_8 1 8)
+(alldifferent q_1 q_2 q_3 q_4 q_5 q_6 q_7 q_8)
+(alldifferent (+ q_1 1) (+ q_2 2) (+ q_3 3) (+ q_4 4) (+ q_5 5) (+ q_6 6) (+ q_7 7) (+ q_8 8))
+(alldifferent (- q_1 1) (- q_2 2) (- q_3 3) (- q_4 4) (- q_5 5) (- q_6 6) (- q_7 7) (- q_8 8))
+; END
