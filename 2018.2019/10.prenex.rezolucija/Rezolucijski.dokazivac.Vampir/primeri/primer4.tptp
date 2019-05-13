@@ -1,0 +1,9 @@
+% pokrenuti sa 
+% ./vampire4.2.2 -fsr off --selection 0 primer4.tptp --show_active on --show_new on
+
+
+fof(one,axiom, ![X] : (rich(X) => happy(X))).
+
+fof(two,axiom, rich(giles)).
+
+fof(three, conjecture, happy(giles)).

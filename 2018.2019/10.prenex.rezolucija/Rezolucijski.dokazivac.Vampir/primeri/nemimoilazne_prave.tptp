@@ -1,0 +1,12 @@
+fof(ime1, axiom,
+	! [X,Y] : (m(X, Y) => (s(X, Y) | p(X, Y)))).
+
+fof(ime2, axiom,
+	! [X,Y] : (s(X, Y) => r(X, Y))).
+
+fof(ime3, axiom,
+	! [X, Y] : (p(X, Y) => r(X, Y))).
+
+fof(ime4, conjecture,
+	! [X, Y] : (m(X, Y) => r(X, Y))).		
+
