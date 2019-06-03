@@ -21,4 +21,4 @@ Repozitorijum posvecen kursu Vestacke Inteligencije na Matematickom fakultetu.
 - **ispit**: _50 poena_, zadaci (radi se na računaru) + teorija (20 pitanja na papiru)
 
 ### Obaveštenja:
-- Konsultacije za grupu kojoj je asistent Danijela Simić će biti u petak, od 18.30 do 19.30, kabinet 716.
+- Konsultacije za grupu kojoj je asistent Danijela Simić će biti u sredu 5.06.2019., od 18.30 do 19.30, kabinet 716.
