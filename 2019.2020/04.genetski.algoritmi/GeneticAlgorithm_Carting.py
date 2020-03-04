@@ -182,7 +182,7 @@ class GeneticAlgorithm:
             
             best_chromosome = max(population, key=lambda x: x.fitness)
             print(best_chromosome.fitness)
-            self.animate_map(best_chromosome.content)            
+            # self.animate_map(best_chromosome.content)            
 
             if best_chromosome.fitness >= self.minimal_target_fitness:
                 break
