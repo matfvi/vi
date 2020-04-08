@@ -1,0 +1,14 @@
+%---- 1*x = 1
+fof(leftidentity,axiom,! [X] : mult(e,X) = X).
+
+%---- i(x)*x = 1
+fof(leftinverse,axiom,! [X] : mult(inverse(X),X) = e).
+
+%---- (x*y)*z = x*(y*z)
+fof(associativity,axiom,! [X,Y,Z] : mult(mult(X,Y),Z) = mult(X,mult(Y,Z))).
+
+%---- x*x = 1
+fof(groupoforder2,hypothesis,! [X] :  mult(X,X) = e).
+
+%---- prove x*y = y*x
+fof(commutativity,conjecture,! [X] : mult(X,Y) = mult(Y,X)).
