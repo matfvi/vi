@@ -1,0 +1,44 @@
+
+% .tptp
+
+% fof(ime1, axiom, ![X]: (rich(X) => happy(X))).
+
+% fof(ime2, axiom, rich(marko)).
+
+% fof(ime3, conjecture, happy(marko)).
+
+
+
+%fof(ime1, axiom, ![X]: (va(X) => dz(X))).
+
+%fof(ime2, axiom, ![X]: (dz(X) => pr(X))).
+
+%fof(ime3, axiom, va(janko)).
+
+%fof(ime4, axiom, ~pr(janko)).
+
+
+%fof(ime1, axiom, ![X, Y]:(m(X, Y) => (s(X, Y) | p(X, Y)))).
+
+%fof(ime2, axiom, ![X, Y]:(s(X, Y) => r(X, Y))).
+
+%fof(ime3, axiom, ![X, Y]:(p(X, Y) => r(X, Y))).
+
+%fof(ime4, conjecture, ![X, Y]: (m(X, Y) => r(X, Y))).
+
+
+%fof(ime1, axiom, ![X, Y]: (b(X, Y) => ?[Z]: (r(Z, Y) & r(Z, X)))).
+
+%fof(ime2, axiom, ![X, Y]: (r(X, Y) => s(X, Y))).
+
+
+%fof(ime3, axiom, ?[X, Y]: b(X, Y)).
+
+
+%fof(ime4, axiom, ![X, Y]: ~s(X, Y)).
+
+
+
+fof(ime1, axiom, ?[Y]:(![Z, X]: p(X, Y, Z))).
+
+fof(posledica, conjecture, (![X]:(?[Y, Z]: (p(X, Y, Z)))) & (![X]:(?[Z, Y]:(p(X, Y, Z))))).

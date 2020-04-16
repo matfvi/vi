@@ -1,5 +1,5 @@
 fof(ime1, axiom,
-	! [X,Y] : (b(X, Y) => (r(Z, Y) & r(Z, X)))).
+	! [X,Y] : (b(X, Y) => ?[Z]: (r(Z, Y) & r(Z, X)))).
 
 fof(ime2, axiom,
 	! [X, Y] : (r(X, Y) => s(X, Y))).
