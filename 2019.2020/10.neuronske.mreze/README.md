@@ -1,5 +1,7 @@
 # Vežbe 10 - Neuronske mreže
 
+<img alt="nn" src="https://www.astroml.org/_images/fig_neural_network_1.png">
+
 ## Materijali
 
 - `01_tf_keras_fashion_mnist.ipynb` - primer sa klasifikacijom nad skupom `Fashion MNIST`
@@ -8,6 +10,8 @@
 - `02_tf_keras_fuel.ipynb` - primer sa regresijom nad skupom `Auto MPG`
 - `02_tf_keras_fuel.html` - sveska u `html` formatu
 - `02.neural.network.diagram.svg` - dijagram modela
+
+Snimak sa časa: [ovde](https://www.youtube.com/watch?v=pNwMY9Xxm_M).
 
 ## Alat *Neural Network Playground*
 
