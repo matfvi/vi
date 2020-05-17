@@ -1,5 +1,7 @@
 # Vežbe 12 - Učenje potkprepljivanjem (eng. Reinforcement learning)
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Reinforcement_learning_diagram.svg/300px-Reinforcement_learning_diagram.svg.png" alt="rl diagram">
+
 - 01.table.q.frozen.lake.v0
     - `frozen_lake_qlearning.ipynb`
         - Okruženje [FrozenLake-v0](https://gym.openai.com/envs/FrozenLake-v0/)
