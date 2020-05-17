@@ -1,10 +1,10 @@
 # Vežbe 12 - Učenje potkprepljivanjem (eng. Reinforcement learning)
 
-- 01.table.q.frozen.lake
+- 01.table.q.frozen.lake.v0
     - `frozen_lake_qlearning.ipynb`
         - Okruženje [FrozenLake-v0](https://gym.openai.com/envs/FrozenLake-v0/)
         - Uvod u *q* učenje
-- 02.table.q.taxi
+- 02.table.q.taxi.v3
     - `randomagent.py`
         - Konstruiše agenta koju bira nasumičnu akciju
         - Okruženje [Taxi-v3](https://gym.openai.com/envs/Taxi-v3/)
@@ -13,7 +13,7 @@
         - Okruženje [Taxi-v3](https://gym.openai.com/envs/Taxi-v3/)
     - `evaluate.py`
         - Poredi prethodna dva agenta
-- 03.cartpole
+- 03.cartpole.v0
     - `cartpole.py`
         - Okruženje [CartPole-v0](https://gym.openai.com/envs/CartPole-v0/)
         - Diskretizuje kontinualne parametre koji opisuju stanja
