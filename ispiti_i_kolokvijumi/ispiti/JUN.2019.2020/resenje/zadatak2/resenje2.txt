@@ -1,0 +1,42 @@
+<=> 	ekvivalencija
+=>  	implikacija
+&		konjukcija
+|		disjunkcija
+~		negacija
+T		te
+neT		ne-te
+
+Polazna formula: (p <=> q) => (~p & r)
+
+-----------------------------------------
+Uzimamo negaciju:
+
+~[(p <=> q) => (~p & r)]
+~[(p => q & q => p) => (~p & r)]
+~[((~p | q) & (~q | p)) => (~p & r)]
+~[~((~p | q) & (~q | p)) | (~p & r)]
+((~p | q) & (~q | p)) & ~(~p & q)
+(~p | q) & (~q | p) & (p | ~r)
+
+1. pure literal : ~r --> T [r --> neT]
+   (~p | q) & (~q | p) & (p | T)
+
+2. tautology
+   (~p | q) & (~q | p)
+
+3. split: p --> T     
+   (neT | q) & (~q | T)
+
+4. oslobadjamo se neT:
+   q & (~q | T)   
+
+5. tautology
+   q
+
+6. unit propagation: q --> T
+   T
+
+7. tautology
+   prazna formula
+
+Negacija formule je zadovoljiva, znaci polazna formula nije valjana.         
