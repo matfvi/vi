@@ -1,0 +1,12 @@
+1. "Svi vole Jelenu."
+2. "Svakog đaka voli Nikola ili Jovan."
+3. "Sve đake voli Nikola ili Jovan."
+4. "Svi koji vole Teodoru nisu đaci."
+5. "Niko ne voli i Mariju i Nikolu."
+
+    A - univerzalni kvantifikator 
+    E - egzistencijalni kvantifikator 
+    & - konjunkcija 
+    v - disjunkcija 
+    => - implikacija
+    <=> - ekvivalencija
