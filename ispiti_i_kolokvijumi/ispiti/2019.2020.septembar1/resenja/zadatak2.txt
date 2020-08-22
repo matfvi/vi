@@ -1,0 +1,2 @@
+Kad se sredi dobije se: 
+(a v ¬b) ∧ a ∧ (b v a)
