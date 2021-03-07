@@ -1,8 +1,8 @@
 
 # depth first traversal
 # depth first search
-# breath first traversal
-# breath first search
+# breadth first traversal
+# breadth first search
 # dijkstra
 
 import json
@@ -12,14 +12,14 @@ from queue import PriorityQueue # heapq
 
 
 
-def depth_first_traversal_recursive(adj_list : dict, start_node: str, traversal: list, visisted = set()):
-    if start_node in visisted:
+def depth_first_traversal_recursive(adj_list : dict, start_node: str, traversal: list, visited = set()):
+    if start_node in visited:
         return
-    visisted.add(start_node)
+    visited.add(start_node)
     traversal.append(start_node)
     for (next_node, _) in adj_list[start_node]:
-        if next_node not in visisted:
-            depth_first_traversal_recursive(adj_list, next_node, traversal, visisted)
+        if next_node not in visited:
+            depth_first_traversal_recursive(adj_list, next_node, traversal, visited)
 
 
 def depth_first_traversal_iterative(adj_list, start_node, traversal):
@@ -30,7 +30,7 @@ def depth_first_traversal_iterative(adj_list, start_node, traversal):
         def __str__(self):
             return f'({self.node}, {self.next_neighbour_index})'
 
-    visisted = set()
+    visited = set()
     node_stack : [StackElement] = [StackElement(start_node, -1)]
 
     while len(node_stack) > 0:
@@ -39,45 +39,45 @@ def depth_first_traversal_iterative(adj_list, start_node, traversal):
         if current.next_neighbour_index == -1:
             current.next_neighbour_index += 1
             traversal.append(current.node)
-            visisted.add(current.node)
+            visited.add(current.node)
         elif current.next_neighbour_index < len(neighbours):
-            unvisisted_neighbour_found = False
+            unvisited_neighbour_found = False
             while current.next_neighbour_index < len(neighbours):
                 (next_node, _) = neighbours[current.next_neighbour_index]
                 current.next_neighbour_index += 1
-                if next_node not in visisted:
+                if next_node not in visited:
                     node_stack.append(StackElement(next_node, -1))
-                    unvisisted_neighbour_found = True
+                    unvisited_neighbour_found = True
                     break
             # Svi susedi od current su poseceni
-            if unvisisted_neighbour_found == False:
+            if unvisited_neighbour_found == False:
                 # izbaci current sa steka jer su svi susedi poseceni
                 node_stack.pop()
         else:
             node_stack.pop()
     return traversal
 
-def depth_first_search_recrusive(adj_list, start_node, target_node, path, visisted = set()):
+def depth_first_search_recrusive(adj_list, start_node, target_node, path, visited = set()):
     path.append(start_node)
     if start_node == target_node:
         return path
-    visisted.add(start_node)
+    visited.add(start_node)
     for (next_node, _) in adj_list[start_node]:
-        if next_node not in visisted:
-            result = depth_first_search_recrusive(adj_list, next_node, target_node, path, visisted)
+        if next_node not in visited:
+            result = depth_first_search_recrusive(adj_list, next_node, target_node, path, visited)
             if result is not None:
                 return result
     path.pop()
     return None
 
 
-def breath_first_traversal(adj_list, start_node):
-    visisted = set()
+def breadth_first_traversal(adj_list, start_node):
+    visited = set()
     queue = Queue()
     levels = [[]]
     separator_node = None
     queue.put(start_node)
-    visisted.add(start_node)
+    visited.add(start_node)
     queue.put(separator_node) 
 
     while not queue.empty():
@@ -90,12 +90,12 @@ def breath_first_traversal(adj_list, start_node):
             continue
         levels[-1].append(current_node)
         for (next_node, _) in adj_list[current_node]:
-            if next_node not in visisted:
+            if next_node not in visited:
                 queue.put(next_node)
-                visisted.add(next_node)
+                visited.add(next_node)
     return levels
 
-def breath_first_search(adj_list, start_node, target_node):
+def breadth_first_search(adj_list, start_node, target_node):
     visited = set()
     queue = Queue()
     queue.put(start_node)
@@ -212,13 +212,13 @@ if __name__ == '__main__':
         print(traversal)
         print('----------------------')
 
-        print('BREATH FIRST TRAVESRAL LEVELS')
-        traversal = breath_first_traversal(adj_list, 'Drobeta')
+        print('BREADTH FIRST TRAVESRAL LEVELS')
+        traversal = breadth_first_traversal(adj_list, 'Drobeta')
         print(traversal)
         print('----------------------')
 
-        print('BREATH FIRST SERACH')
-        traversal = breath_first_search(adj_list, 'Drobeta', 'Lugoj')
+        print('BREADTH FIRST SERACH')
+        traversal = breadth_first_search(adj_list, 'Drobeta', 'Lugoj')
         print(traversal)
         print('----------------------')
 
