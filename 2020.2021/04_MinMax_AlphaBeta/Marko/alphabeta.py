@@ -1,66 +1,93 @@
-# X-O
-
+# XO
 # minmax
-# alpha-beta
+# alphabeta
+
 import copy
+number_of_calls = 0
+def Min(current_state, alpha = float('-inf'), beta = float('inf')):
+    global number_of_calls
+    number_of_calls += 1
+    if end(current_state):
+        return evaluate(current_state), current_state
+    
+    current_best_value = float('inf')
+    best_move = None
+    for next_state in get_next_states(current_state):
+        opponents_best_move_value, _ = Max(next_state, alpha, beta)
+        if opponents_best_move_value < current_best_value:
+            current_best_value = opponents_best_move_value
+            best_move = next_state
+
+        if current_best_value <= alpha:
+            return current_best_value, next_state
+
+        if current_best_value < beta:
+            beta = current_best_value
+
+    return current_best_value, best_move
+
+def Max(current_state, alpha = float('-inf'), beta = float('inf')):
+    global number_of_calls
+    number_of_calls += 1
+    if end(current_state):
+        return evaluate(current_state), current_state
+    
+    current_best_value = float('-inf')
+    best_move = None
+    for next_state in get_next_states(current_state):
+        opponents_best_move_value, _ = Min(next_state, alpha, beta)
+        if opponents_best_move_value > current_best_value:
+            current_best_value = opponents_best_move_value
+            best_move = next_state
+
+        if current_best_value >= beta:
+            return current_best_value, next_state
+
+        if current_best_value > alpha:
+            alpha = current_best_value
+
+    return current_best_value, best_move
+
+
 class XOState:
     empty = ' '
     def __init__(self):
-        self.board = [  [XOState.empty, XOState.empty, XOState.empty],
-                        [XOState.empty, XOState.empty, XOState.empty],
-                        [XOState.empty, XOState.empty, XOState.empty]
-                    ]
+        self.board = [
+            [XOState.empty, XOState.empty, XOState.empty],
+            [XOState.empty, XOState.empty, XOState.empty],
+            [XOState.empty, XOState.empty, XOState.empty]
+        ]
         self.curr_player = 'X'
-        self.prev_player = 'O'
 
         self.last_move = None
         self.move_count = 0
 
-    def play_move(self, next_move):
-        i, j = next_move[0], next_move[1]
+    def play_move(self, move):
+        i, j = move[0], move[1]
         self.board[i][j] = self.curr_player
+        self.curr_player = 'X' if self.curr_player == 'O' else 'O' 
+        self.last_move = move
         self.move_count += 1
-        self.curr_player, self.prev_player = self.prev_player, self.curr_player
-        self.last_move = next_move
 
     def draw_board(self):
-        print("{}".format(' | '.join(self.board[0])))
-        print("{}".format(' | '.join(self.board[1])))
-        print("{}".format(' | '.join(self.board[2])))
+        print(' | '.join(self.board[0]))
+        print(' | '.join(self.board[1]))
+        print(' | '.join(self.board[2]))
 
+# Domaci: generisate stanja po potrebi.
+# Hint: range(a, b)? 
+def get_next_states(current_state: XOState):
+    result = []
+    for i in range(0,3):
+        for j in range(0,3):
+            if current_state.board[i][j] == XOState.empty:
+                next_state = copy.deepcopy(current_state)
+                next_state.play_move([i, j])
+                result.append(next_state)
+    return result
 
-def end(current_state):
-    winner = get_winner(current_state)
-    return winner is not None or current_state.move_count == 9
-
-def get_winner(current_state):
-    board = current_state.board
-    
-    # vertikala
-    for i in range(0, 3):
-        if board[0][i] != XOState.empty and board[0][i] == board[1][i] == board[2][i]:
-            return board[0][i]
-
-    # horizontala
-    for i in range(0, 3):
-        if board[i][0] != XOState.empty and board[i][0] == board[i][1] == board[i][2]:
-            return board[i][0]
-    # glavna dijagonala
-    if board[0][0] != XOState.empty and board[0][0] == board[1][1] == board[2][2]:
-        return board[0][0]
-
-    # sporedna dijagonala
-    if board[2][0] != XOState.empty and board[2][0] == board[1][1] == board[0][2]:
-        return board[2][0]
-
-    return None
-
-def get_next_move():
-    next_move = input()
-    next_move = [int(x) for x in next_move.split(',')] # ['0', '0']
-    return next_move
-
-def evaluate(current_state:XOState):
+# Domaci: uracunati broj poteza u evaluaciju. Tako da se pobedjuje sa najmanjim brojem poteza.
+def evaluate(current_state: XOState):
     winner = get_winner(current_state)
     result = 0
     if winner == 'X':
@@ -69,86 +96,61 @@ def evaluate(current_state:XOState):
         result = -1
     return result
 
+def get_winner(current_state: XOState):
+    board = current_state.board
 
-def get_next_states(current_state: XOState):
-    result = []
+    # kolone
     for i in range(0,3):
-        for j in range(0,3):
-            if current_state.board[i][j] == XOState.empty:
-                next_state = copy.deepcopy(current_state)
-                next_state.play_move((i, j))
-                result.append(next_state)
-    return result
+        if board[0][i] != XOState.empty and board[0][i] == board[1][i] == board[2][i]:
+            return board[0][i]
 
-number_of_calls = 0
+    # redovi
+    for i in range(0,3):
+        if board[i][0] != XOState.empty and board[i][0] == board[i][1] == board[i][2]:
+            return board[i][0]
 
-def Min(current_state, alpha = float('-inf'), beta = float('inf')):
-    global number_of_calls
-    number_of_calls += 1
-    if end(current_state):
-        return evaluate(current_state), current_state
+    # dijagonale
+    if board[0][0] != XOState.empty and board[0][0] == board[1][1] == board[2][2]:
+        return board[0][0]
+
+    if board[0][2] != XOState.empty and board[0][2] == board[1][1] == board[2][0]:
+        return board[0][2]
     
-    minv = float('inf')
-    best_move = None
-    for next_state in get_next_states(current_state):
-        maxv, _ = Max(next_state, alpha, beta)
-        if maxv < minv:
-            minv = maxv
-            best_move = next_state
-        
-        if minv <= alpha:
-            return minv, next_state
+    return None
 
-        if minv < beta:
-            beta = minv
+def end(current_state: XOState):
+    winner = get_winner(current_state)
+    return winner is not None or current_state.move_count == 9
 
-    return minv, best_move
+def read_next_move_from_stdin():
+    move = input().split(',')
+    return [int(move[0]), int(move[1])]
 
-
-def Max(current_state, alpha = float('-inf'), beta = float('inf')):
-    global number_of_calls
-    number_of_calls += 1
-    if end(current_state):
-        return evaluate(current_state), current_state
-    
-    maxv = float('-inf')
-    best_move = None
-    for next_state in get_next_states(current_state):
-        minv, _ = Min(next_state, alpha, beta)
-        if maxv < minv:
-            maxv = minv
-            best_move = next_state
-        
-        if maxv >= beta:
-            return maxv, next_state
-        
-        if maxv > alpha:
-            alpha = maxv
-
-    return maxv, best_move
-
+def get_next_computer_move(current_state: XOState, func):
+    _, state = func(current_state)
+    return state.last_move
 
 if __name__ == '__main__':
     game = XOState()
     game.draw_board()
-    
     while True:
-        next_move = get_next_move() # 0,0 1,1
+        next_move = read_next_move_from_stdin() # [1,2]
         game.play_move(next_move)
         game.draw_board()
         if get_winner(game) == 'X':
-            print("Player X won")
+            print('Player X won')
             break
 
         if end(game):
             print('Tie')
             break
-        
-        _, next_state = Min(game)
-        next_move = next_state.last_move
+
+        # next_move = read_next_move_from_stdin()
+        number_of_calls = 0
+        next_move = get_next_computer_move(game, Min)
+        print('Number of calls: ', number_of_calls)
         game.play_move(next_move)
         game.draw_board()
         if get_winner(game) == 'O':
             print('Player O won')
             break
-
