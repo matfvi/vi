@@ -94,7 +94,7 @@ class Game:
         v = float('inf')
         (min_i, min_j) = (None, None)
         for (i, j, next_state) in self.get_next_states(current_state, 1):
-            (value, i, j) = self.Max(next_state, alpha, beta)
+            (value, max_i, max_j) = self.Max(next_state, alpha, beta)
             if v > value:
                 v = value
                 min_i = i
