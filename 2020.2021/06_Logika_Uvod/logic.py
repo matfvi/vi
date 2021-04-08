@@ -193,7 +193,7 @@ def primer_2():
 
 def primer_3():
     print('primer3')
-    ana_je_zubar = Var("p,q")
+    p,q = Var("p,q")
     formula = p >> q
     print(formula)
     print("Tautology: ", formula.is_tautology())
