@@ -4,7 +4,31 @@ import os
 import timeit
 import sys
 
+# Zbog ugenjždenih Or i And i velikog broja promenljivih
+# moramo povećati broj rekuriznih poziva funkcija 
 sys.setrecursionlimit(10000)
+
+def minisat_solve(problem_name, problem_dimacs, number_to_var):
+    with open(f'{problem_name}.cnf', 'w') as handle:
+        handle.write(problem_dimacs)
+    os.system(f'minisat {problem_name}.cnf {problem_name}_result.cnf')
+
+    with open(f'{problem_name}_result.cnf', 'r') as result_file:
+        lines = result_file.readlines()
+
+    if lines[0].startswith('SAT'):
+        print('SAT')
+        var_values = {}
+        for var in lines[1].split(' ')[:-1]:
+            var_number = int(var.strip('-'))
+            var_name = number_to_var[var_number]
+            var_values[var_name] = 0 if var.startswith('-') else 1
+        true_vars = list(filter(lambda v: v[1] == 1, var_values.items()))
+        true_vars.sort()
+        for var in true_vars:
+            print(var)
+    else:
+        print('UNSAT')
 
 def n_dama(n):
     '''
@@ -36,10 +60,15 @@ def n_dama(n):
             formula &= (~f.Var(f'p{i}{j}') | ~f.Var(f'p{k}{l}'))
 
 
+
     problem_knf = f.KNF(formula)
+    problem_dimacs = f.DIMACS(problem_knf)
+
+    minisat_solve(f'{n}_queens_formula_class.cnf', problem_dimacs.encoding, problem_dimacs.number_to_varname)
+
 
     print('Iscrpna provera')
-    sat, solution = problem_knf.is_satisfiable()
+    sat, solution = formula.is_satisfiable()
     if sat:
         print('SAT')
         true_vars = []
@@ -51,4 +80,5 @@ def n_dama(n):
             print(true_var)
 
 if __name__ == '__main__':
-    n_dama(4)
+    n = 4 # 3,4,5,6,7,8,9... probati
+    n_dama(6)

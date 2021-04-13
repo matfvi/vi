@@ -1,5 +1,21 @@
+'''
+    Uporediti formulaciju uslova problema preko klase Formula i klase CNF.
+    Za malo veci broj promenljivih i uslova klasa Formula zbog ugnjezdenih
+    Or i And komponenti postane neprakticna.
+
+
+    Ovaj primer treba da dostigne maksimalan broj rekruzivnih poziva
+    za svodjenje na KNF rekruzivnih pozivima funkcije KNF.
+
+'''
+
 from itertools import product
 import formula as f
+import os
+import sys
+
+
+sys.setrecursionlimit(10000)
 
 def same_subsquare(r1, c1, r2, c2, n):
     block_size = int(n**.5)
@@ -35,9 +51,14 @@ def sudoku(initial_board):
             formula &= ~f.Var(f'S_{row1}_{col1}_{number}') | ~f.Var(f'S_{row2}_{col2}_{number}')
 
     problem_knf = f.KNF(formula)
-    # problem_dimacs = f.DIMACS(formula)
+    problem_dimacs = f.DIMACS(formula)
+    minisat_solve(f'sudoku', problem_dimacs.encoding, problem_dimacs.number_to_varname)
 
-    problem_knf = f.KNF(formula)
+    # formula je vec u KNF.
+    # 
+
+    # Dostize maksimalna broj rekruzivnih poziva zbog mnogo ugenjezedenih komponenti
+    problem_knf = f.KNF(formula) 
 
     print('Iscrpna provera')
     sat, solution = problem_knf.is_satisfiable()
@@ -50,6 +71,28 @@ def sudoku(initial_board):
         true_vars.sort()
         for true_var in true_vars:
             print(true_var)
+
+def minisat_solve(problem_name, problem_dimacs, number_to_var):
+    with open(f'{problem_name}.cnf', 'w') as handle:
+        handle.write(problem_dimacs)
+    os.system(f'minisat {problem_name}.cnf {problem_name}_result.cnf')
+
+    with open(f'{problem_name}_result.cnf', 'r') as result_file:
+        lines = result_file.readlines()
+
+    if lines[0].startswith('SAT'):
+        print('SAT')
+        var_values = {}
+        for var in lines[1].split(' ')[:-1]:
+            var_number = int(var.strip('-'))
+            var_name = number_to_var[var_number]
+            var_values[var_name] = 0 if var.startswith('-') else 1
+        true_vars = list(filter(lambda v: v[1] == 1, var_values.items()))
+        true_vars.sort()
+        for var in true_vars:
+            print(var)
+    else:
+        print('UNSAT')
 
 if __name__ == '__main__':
     hardest_sudoku = [
