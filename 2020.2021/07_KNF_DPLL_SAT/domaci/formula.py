@@ -53,13 +53,9 @@ class Formula:
 
     def is_satisfiable(self):
         variables = list(self.get_all_variables())
-        to_check =  2**len(variables)
-        count = 1
         for valuation in all_valuations(variables):
-            print(f'{count}/{to_check}              \r', end="")
             if self.interpret(valuation) == True:
                 return True, valuation
-            count += 1
         return False, None
 
     def is_contradictory(self):
@@ -82,13 +78,6 @@ class Formula:
         for valuation in all_valuations(variables):
             if self.interpret(valuation) == True:
                 result.append(valuation)
-        return result
-
-    def dimacs(self, variables):
-        knf = self.KNF()
-        result = ''
-        for c in self.components:
-            result += c._dimacs(variables)
         return result
 
 
@@ -277,52 +266,12 @@ def KNF(formula):
 def vars(names):
     return [Var(name.strip()) for name in names.split(',')]
 
+
 class DimacsFormat:
     def __init__(self, encoding, variables):
         self.encoding = encoding
         self.varname_to_number = variables
-        self.number_to_varname = {v:k for k,v in self.varname_to_number.items()}
-
-    def get_encoding(self):
-        return self.encoding
-
-    def get_var_name(self, number):
-        return self.number_to_varname[number]
-
-    def get_var_number(self, var_name):
-        return self.varname_to_number[var_name]
-
-class CNF:
-    def __init__(self):
-        self.clauses = []
-        self.number_to_var_name = {}
-        self.var_name_to_number = {}
-
-    def add_clause(self, clause):
-        for literal in clause:
-            var_name = literal.strip('-')
-            if var_name not in self.var_name_to_number:
-                var_number = len(self.var_name_to_number) + 1
-                self.var_name_to_number[var_name] = var_number
-                self.number_to_var_name[var_number] = var_name
-        self.clauses.append(clause)
-
-    def dimacs(self):
-        result = f'p cnf {len(self.number_to_var_name)} {len(self.clauses)}\n'
-        for clause in self.clauses:
-            for literal in clause:
-                var_name = literal.strip('-')
-                if literal[0] == '-':
-                    result += '-'
-                result += f'{self.var_name_to_number[var_name]} '
-            result += '0\n'
-        return result
-    
-    def get_var_name(self, number: int):
-        return self.vars[number]
-
-    def get_var_number(self, name: str):
-        return self.var_name_to_number[name]
+        self.number_to_varname = {int(v):k for k,v in self.varname_to_number.items()}
 
 def DIMACS(formula):
     variables = {}

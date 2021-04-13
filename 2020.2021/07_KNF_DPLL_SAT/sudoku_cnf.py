@@ -1,11 +1,7 @@
-import logic.formula as f
+import cnf as f
 from itertools import product
 import os
-import timeit
 import sys
-import math
-sys.setrecursionlimit(10000)
-
 
 def minisat_solve(problem_name, problem_dimacs, number_to_var):
     with open(f'{problem_name}.cnf', 'w') as handle:
@@ -29,43 +25,11 @@ def minisat_solve(problem_name, problem_dimacs, number_to_var):
     else:
         print('UNSAT')
 
-
 def same_subsquare(r1, c1, r2, c2, n):
     block_size = int(n**.5)
     block_1 = (r1 // block_size, c1 // block_size)
     block_2 = (r2 // block_size, c2 // block_size)
     return block_1 == block_2
-
-def sudoku_naive(initial_board):
-    n = len(initial_board)
-    formula = f.Var(f'init')
-    # S_i_j_k polje i,j sadrzi broj k
-
-    for row, col in product(range(n), repeat=2):
-        number = initial_board[row][col]
-        if number != 0:
-            formula &= f.Var(f'S_{row}_{col}_{initial_board[row][col]}')
-
-    # Svaki kvadrat mora imati broj između 1 i 9
-    for row, col in product(range(n), repeat=2):
-        clause = f.Const(False)
-        for number in range(1, n+1):
-            clause |= f.Var(f'S_{row}_{col}_{number}')
-        formula &= clause
-    
-
-    for row1, col1, row2, col2, number in product(range(n), repeat=5):
-        number += 1
-        if (row1 == row2 and col1 < col2) \
-        | (col1 == col2 and row1 < row2) \
-        | same_subsquare(row1, col1, row2, col2, n):
-            # S_i_j_n => ~S_i`_j`_n <=> ~S_i_j_n | ~S_i`_j`_n
-            formula &= ~f.Var(f'S_{row1}_{col1}_{number}') | ~f.Var(f'S_{row2}_{col2}_{number}')
-
-    problem_knf = f.KNF(formula)
-    problem_dimacs = f.DIMACS(formula)
-    minisat_solve('sudoku', problem_dimacs.encoding, problem_dimacs.number_to_varname)
-
 
 def sudoku_cnf(initial_board):
     n = len(initial_board)
@@ -96,7 +60,7 @@ def sudoku_cnf(initial_board):
         number += 1
         if (row1 == row2 and col1 < col2) \
         | (col1 == col2 and row1 < row2) \
-        | same_subsquare(row1, col1, row2, col2, n):
+        | ((row1, col1) != (row2, col2) and same_subsquare(row1, col1, row2, col2, n)):
             # S_i_j_n => ~S_i`_j`_n <=> ~S_i_j_n | ~S_i`_j`_n
             cnf.add_clause([f'-S_{row1}_{col1}_{number}', f'-S_{row2}_{col2}_{number}'])
 
@@ -129,23 +93,10 @@ def sudoku_cnf_a(board):
             cnf.add_clause([f'-S_{row1}_{col1}_{number}', f'-S_{row2}_{col2}_{number}'])
 
 
-
     minisat_solve('test', cnf.dimacs(), cnf.number_to_var_name)
 
-if __name__ == '__main__':
-    #n_dama(4)
-    
-    board = [
-        [0,6,0,0,8,0,4,2,0],
-        [0,1,5,0,6,0,3,7,8],
-        [0,0,0,4,0,0,0,6,0],
-        [1,0,0,6,0,4,8,3,0],
-        [3,0,6,0,1,0,7,0,5],
-        [0,8,0,3,5,0,0,0,0],
-        [8,3,0,9,4,0,0,0,0],
-        [0,7,2,1,3,0,9,0,0],
-        [0,0,9,0,2,0,6,1,0]    
-    ]
+
+if __name__ == '__main__':    
     hardest_sudoku = [
         [8,0,0,0,0,0,0,0,0],
         [0,0,3,6,0,0,0,0,0],
@@ -158,4 +109,4 @@ if __name__ == '__main__':
         [0,9,0,0,0,0,4,0,0]
     ]
 
-    sudoku_cnf_a(hardest_sudoku)
+    sudoku_cnf(hardest_sudoku)
