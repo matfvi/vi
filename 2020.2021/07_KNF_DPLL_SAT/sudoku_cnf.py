@@ -15,9 +15,9 @@ def minisat_solve(problem_name, problem_dimacs, number_to_var):
         print('SAT')
         var_values = {}
         for var in lines[1].split(' ')[:-1]:
-            var_number = int(var.strip('-'))
-            var_name = number_to_var[var_number]
-            var_values[var_name] = 0 if var.startswith('-') else 1
+            var_number = int(var)
+            var_name = number_to_var[abs(var_number)]
+            var_values[var_name] = var_number > 0
         true_vars = list(filter(lambda v: v[1] == 1, var_values.items()))
         true_vars.sort()
         for var in true_vars:
@@ -65,36 +65,6 @@ def sudoku_cnf(initial_board):
             cnf.add_clause([f'-S_{row1}_{col1}_{number}', f'-S_{row2}_{col2}_{number}'])
 
     minisat_solve('sudoku', cnf.dimacs(), cnf.number_to_var_name)
-
-
-def sudoku_cnf_a(board):
-    n = len(board)
-    cnf = f.CNF()
-    
-    # initial board
-    for row, col in product(range(n), repeat=2):
-        number = board[row][col]
-        if number != 0:
-            clause = [f'S_{row}_{col}_{number}']
-            cnf.add_clause(clause)
-
-    # svako polje mora imati broj iz skupa [1,2,..n]
-    for row, col in product(range(n), repeat=2):
-        clause = [f'S_{row}_{col}_{number}' for number in range(1, n+1)]
-        cnf.add_clause(clause)
-
-    # ~(S_i_j_k & S_i'_j'_k) gde su (i,j) i (i',j') u istom redu, koloni ili bloku
-    # ~ (p & q) <=> ~p | ~q
-    for row1, col1, row2, col2, number in product(range(n), repeat=5):
-        number += 1
-        if (row1 == row2 and col1 < col2) \
-        | (col1 == col2 and row1 < row2) \
-        | ( (row1, col1) != (row2, col2) and same_subsquare(row1, col1, row2, col2, n)):
-            cnf.add_clause([f'-S_{row1}_{col1}_{number}', f'-S_{row2}_{col2}_{number}'])
-
-
-    minisat_solve('test', cnf.dimacs(), cnf.number_to_var_name)
-
 
 if __name__ == '__main__':    
     hardest_sudoku = [
