@@ -1,0 +1,239 @@
+∀ ∃
+
+1.a zad
+Svako zadovoljstvo se plaća.
+
+zadovoljstvo se plaća.
+
+z(x) - x je zadovljstvo
+p(x) - x se placa
+
+
+Ako nesto, onda nesto drugo.
+A & B, A => B
+
+(∀x)(z(x) => p(x))
+
+NETACNO: (∀x)(z(x) & p(x)) # Sve je zadovljstvo i sve se placa.
+
+1.b zad
+Postoji zadovoljstvo koje se plaća.
+
+z(x) - x je zadovoljstvo
+p(x) - x se placa
+
+(∃x)(z(x) & p(x))
+
+NETACNO: (∃x)(z(x) => p(x))
+
+
+1.c Ni jedno zadovoljstvo nije posao.
+z(x) - x je zadovljstvo
+p(x) - x je posao
+
+(∀x)(z(x) => ~p(x))
+
+# (∀x)(z(x) <=> ~p(x)) TODO: dodati preciznu recinicu
+
+
+NETACNO: (∀x)(z(x) & ~p(x)) # Sve je zadovoljstvo i nista nije posao.
+
+2. zad
+Sve što leti to ima krila i lagano je.
+Sve što pliva to nema krila.
+Sve što pliva to ne leti.
+
+l(x) - x leti
+k(x) - x ima krila
+p(x) - x pliva
+lag(x) - x je lagno
+
+(∀x)(l(x) => (k(x) & lag(x)))
+(∀x)(p(x) => ~k(x))
+(∀x)(p(x) => ~l(x))
+
+3. 
+Dve nemimoilazne prave se seku ili su paralelene.
+Prave koje se seku leže u istoj ravni.
+Prave koje su paralelene leže u istoj ravni.
+Dve nemimoilazne prave leže u istoj ravni.
+
+m(x,y) - x i y su nemimoilazne prave
+s(x,y) - prave x i y se seku
+p(x,y) - prave x i y su paralelne
+r(x,y) - prave x i y leze u istoj ravni
+
+(∀x)(∀y)(m(x,y) => (s(x,y) | p(x,y)))
+(∀x)(∀y)(s(x,y) => r(x,y))
+(∀x)(∀y)(p(x,y) => r(x,y))
+(∀x)(∀y)(m(x,y) => r(x,y))
+
+4. zad
+Svaka dva brata imaju zajedničkog roditelja.
+Roditelj je stariji od deteta.
+Postoje braća.
+Ni jedna osoba nije starija od druge.
+
+b(x,y) - x i y su braca
+r(x,y) - x je roditelj od y
+s(x,y) - x je stariji od y
+
+
+(∀x)(∀y)(∃z) (b(x,y) => (r(z,x) & r(z, y)))
+(∀x)(∀y) (r(x,y) => s(x,y))
+(∃x)(∃y) b(x,y)
+(∀x)(∀y) ~s(x,y)
+
+
+5.
+Svako ima rođaka na moru ili na planini.
+Ko ima rođaka na moru, bio je na moru.
+Ko ima rođaka na planini, bio je na planini.
+Neko nije bio ni na moru, ni na planini.
+
+rm(x) - x ima rodjaka na moru
+rp(x) - x ima rodjaka na planini
+m(x) - x je bio na moru
+p(x) - x je bio na planini
+
+(∀x)(rm(x) | rp(x))
+(∀x)(rm(x) => m(x))
+(∀x)(rp(x) => p(x))
+(∃x)(~m(x) & ~p(x))
+
+6. 
+Svako ruča kod kuće ili u restoranu.
+Ko ruča u restoranu i nema novaca, taj pere sudove u restoranu.
+Janko nema novaca.
+Janko ruča kod kuće ili pere sudove u restoranu.
+
+# predikatski simboli
+rk(x) - x ruca kod kuce
+rr(x) - x ruca u restoranu
+nn(x) - x nema novca
+ps(x) - x pere sudove
+
+# funkcijski simboli
+j - Janko
+ar(j) = 0
+
+(∀x)(rk(x) | rr(x))
+(∀x)((rr(x) & nn(x)) => ps(x)) # postoji neko ko ruca u resturanu i nema novca, pa onda pere sudove.
+nn(j)
+rk(j) | ps(j)
+
+zad 7.
+Ko rano rani, ceo dan je pospan.
+Ko rano rani ceo dan je pospan ili dve sreće grabi.
+Ko dve sreće grabi, ceo dan je pospan.
+
+rr(x) - x rano rani
+p(x) - x je ceo dan pospan
+ds(x) - x dve srece grabi
+
+(∀x)(rr(x) => p(x))
+(∀x)(rr(x) => (p(x) | ds(x)))
+(∀x)(ds(x) => p(x))
+
+zad 8.
+Ko se vozi avionom dosta zarađuje.
+Ko dosta zarađuje puno radi.
+Janko se vozi avionom.
+Janko ne radi puno.
+
+va(x) - x se vozi avionom
+dz(x) - x dosta zaradjuje
+pr(x) - x puno radi
+
+j - Janko
+
+(∀x)(va(x) => dz(x))
+(∀x)(dz(x) => pr(x))
+va(j)
+~pr(j)
+
+
+9.
+Ako postoji cipela koja u svakom trenutku odgovara svakoj nozi,
+onda za svaku nogu postoji cipela koja joj u nekom trenutku
+odgovara i za svaku nogu postoji trenutak takav da postoji cipela
+koja joj u tom trenutku odgovara.
+
+A => (B & C)
+A = cipela koja u trenutku odgovara nozi
+B = za nogu cipela koja joj u trenutku odgovara
+C = za nogu trenutak takav da cipela koja joj u trenutku odgovara
+
+p(x,y,z) - nogi X odgvara cipela Y u trenutku Z
+
+∀ ∃
+(∃y)(∀z)(∀x) p(x,y,z) => ((∀x)(∃y)(∃z) p(x,y,z) & (∀x)(∃z)(∃y) p(x,y,z))
+
+
+11.
+Ko laže taj krade.
+Ko krade i uhvaćen je u krađi, taj ide u zatvor.
+Al Kapone laže.
+Al Kapone je uhvaćen u krađi.
+Laki Lućiano laže.
+
+P:
+l(x) - x laze
+k(x) - x krade
+u(x) - x je uhvacen u kradji
+z(x) - x ide u zatvor
+
+F:
+AK - Al Kapone 
+LL - Laki Luciano
+ar(AK) = 0
+ar(LL) = 0
+
+∀ ∃
+(∀x)(l(x) => k(x))
+(∀x)((k(x) & u(x)) => z(x))
+l(AK)
+u(AK)
+l(LL)
+
+
+12. zad
+Ako onaj ko laže taj i krade i ako bar neko laže, onda neko i krade.
+
+l(x) - x laze
+k(x) - x krade
+
+∀ ∃
+
+((∀x)(l(x) => k(x)) & (∃x)l(x)) => (∃x)k(x)
+
+
+13. zad
+Ako je X prijatelj osobe Y, onda je Y prijatelj osobe X.
+Ako je X prijatelj osobe Y, onda X voli Y.
+Ne postoji neko ko je povredio osobu koju voli.
+Janko je povredio svog prijatelja Marka.
+
+P:
+p(x,y) - osoba X je prijtelj osobe Y
+v(x,y) - x voli y
+pov(x,y) - x je povredio y
+
+F:
+j - Janko
+m - Marko
+∀ ∃
+(∀x)(∀y)(p(x,y) => p(y,x))
+(∀x)(∀y)(p(x,y) => v(x,y))
+~[(∃x)(∃y)(pov(x,y) & v(x,y))]
+pov(j,m) & p(m,j)
+
+
+
+
+
+
+
+
+
+
