@@ -1,0 +1,13 @@
+% Primer sa rodjak more ili planina... zadatak 5
+
+fof(ime1, axiom,
+	! [X] : (rm(X) | rp(X))).
+
+fof(ime2, axiom,
+	! [X] : (rm(X) => rp(X))).	
+
+fof(ime3, axiom,
+	! [X] : (rp(X) => p(X))).	
+
+fof(ime4, axiom,
+	? [X] : (~m(X) & ~p(X))).		
