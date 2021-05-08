@@ -1,7 +1,5 @@
 # Materijali
 
-## Prolog.
-
 ## Vampire:
 http://www.cse.chalmers.se/~laurako/pub/CAV13_Kovacs.pdf  
 https://vprover.github.io/  
