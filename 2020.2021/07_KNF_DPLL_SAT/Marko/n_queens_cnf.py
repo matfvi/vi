@@ -52,4 +52,4 @@ def n_dama_cnf(n):
     minisat_solve(f'{n}_queens', cnf.dimacs(), cnf.number_to_var_name)
 
 if __name__ == '__main__':
-    n_dama_cnf(4)
+    n_dama_cnf(6)
