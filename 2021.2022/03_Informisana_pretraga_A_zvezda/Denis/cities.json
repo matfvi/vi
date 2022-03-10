@@ -1,0 +1,179 @@
+{
+    "Oradea": [
+        [
+            "Zerind",
+            71
+        ],
+        [
+            "Sibiu",
+            151
+        ]
+    ],
+    "Zerind": [
+        [
+            "Arad",
+            75
+        ],
+        [
+            "Oradea",
+            71
+        ]
+    ],
+    "Arad": [
+        [
+            "Sibiu",
+            140
+        ],
+        [
+            "Timisoara",
+            118
+        ],
+        [
+            "Zerind",
+            75
+        ]
+    ],
+    "Timisoara": [
+        [
+            "Lugoj",
+            111
+        ],
+        [
+            "Arad",
+            118
+        ]
+    ],
+    "Lugoj": [
+        [
+            "Mehadia",
+            70
+        ],
+        [
+            "Timisoara",
+            111
+        ]
+    ],
+    "Mehadia": [
+        [
+            "Drobeta",
+            75
+        ],
+        [
+            "Lugoj",
+            70
+        ]
+    ],
+    "Drobeta": [
+        [
+            "Craiova",
+            120
+        ],
+        [
+            "Mehadia",
+            75
+        ]
+    ],
+    "Sibiu": [
+        [
+            "Fagaras",
+            99
+        ],
+        [
+            "Rimnicu Vilacea",
+            80
+        ],
+        [
+            "Arad",
+            140
+        ],
+        [
+            "Oradea",
+            151
+        ]
+    ],
+    "Fagaras": [
+        [
+            "Buchares",
+            211
+        ],
+        [
+            "Sibiu",
+            99
+        ]
+    ],
+    "Rimnicu Vilacea": [
+        [
+            "Sibiu",
+            80
+        ],
+        [
+            "Pitesti",
+            97
+        ],
+        [
+            "Craiova",
+            146
+        ]
+    ],
+    "Pitesti": [
+        [
+            "Rimnicu Vilacea",
+            97
+        ],
+        [
+            "Craiova",
+            138
+        ],
+        [
+            "Buchares",
+            101
+        ]
+    ],
+    "Craiova": [
+        [
+            "Rimnicu Vilacea",
+            146
+        ],
+        [
+            "Pitesti",
+            138
+        ],
+        [
+            "Drobeta",
+            120
+        ]
+    ],
+    "Buchares": [
+        [
+            "Fagaras",
+            211
+        ],
+        [
+            "Pitesti",
+            101
+        ],
+        [
+            "Urziceni",
+            85
+        ]
+    ],
+    "Urziceni": [
+        ["Buchares", 85],
+        ["Hirsova", 98],
+        ["Vaslui", 142]
+    ],
+    "Vaslui": [
+        ["Urziceni", 98],
+        ["Lasi", 92]
+    ],
+    "Lasi": [
+        ["Vaslui", 92],
+        ["Neamt", 87]
+    ],
+    "Neamt": [
+        ["Lasi", 87]
+    ],
+    "Hirsova": [
+        ["Urziceni", 98]
+    ]
+}
