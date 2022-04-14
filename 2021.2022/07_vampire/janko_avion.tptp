@@ -1,0 +1,7 @@
+fof(ime1, axiom, ! [X] : (va(X) => dz(X))).
+
+fof(ime2, axiom, ! [X] : (dz(X) => pr(X))).
+
+fof(ime3, axiom, va(janko)).
+
+fof(ime4, axiom, ~pr(janko)).
