@@ -13,6 +13,10 @@
 
 Snimak sa časa: [ovde](https://www.youtube.com/watch?v=pNwMY9Xxm_M).
 
+## Vizuelni prikaz treniranja neuronske mreže
+
+https://playground.tensorflow.org/
+
 ## Alat *Neural Network Playground*
 
 Na [ovoj](https://playground.tensorflow.org/) adresi možete pronaći alat Neural Network Playground
