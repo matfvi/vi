@@ -154,7 +154,7 @@ def _DPLL(D, valuation):
 	newD = []
 	izabrani = razliciti_literali[0]
 	valuation[izabrani] = True
-	newD = zameni_literal(D, l, 'T')
+	newD = zameni_literal(D, izabrani, 'T')
 	print('SPLIT[{}-->T]'.format(izabrani))
 	print(newD)
 	res, val = _DPLL(newD, valuation)
@@ -163,7 +163,7 @@ def _DPLL(D, valuation):
 		return True, val
 
 	valuation[izabrani] = False
-	newD = zameni_literal(D, l, 'F')
+	newD = zameni_literal(D, izabrani, 'F')
 	print('SPLIT[{} --> F]'.format(izabrani))
 	res, val = _DPLL(newD, valuation)
 
